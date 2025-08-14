@@ -26,4 +26,8 @@ dist-ssr
 # TSDoc/TypeDoc output
 public/docs/
 public/coverage/
+public/storybook
 api/
+
+*storybook.log
+storybook-static

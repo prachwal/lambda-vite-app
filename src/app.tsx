@@ -1,7 +1,7 @@
 import { Counter } from './components/Counter';
 import { TechLinks } from './components/TechLinks/TechLinks.tsx';
 import preactLogo from './assets/preact.svg';
-import viteLogo from '/vite.svg';
+import viteLogo from './assets/vite.svg';
 import './app.css';
 
 export function getTechLinks() {
@@ -13,6 +13,10 @@ export function getTechLinks() {
     {
       label: 'Coverage Report',
       url: '/coverage/index.html',
+    },
+    {
+      label: 'Storybook',
+      url: '/storybook/index.html',
     },
     {
       label: 'Preact Guide',
