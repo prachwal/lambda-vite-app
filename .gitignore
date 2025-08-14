@@ -25,4 +25,5 @@ dist-ssr
 
 # TSDoc/TypeDoc output
 public/docs/
+public/coverage/
 api/

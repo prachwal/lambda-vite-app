@@ -40,7 +40,7 @@ export default [
             'import/no-unresolved': [
                 'error',
                 {
-                    ignore: ['/vite.svg', '@typescript-eslint/parser'],
+                    ignore: ['/vite.svg', '@typescript-eslint/parser', './components/Counter'],
                 }
             ],
             'import/no-duplicates': 'error',
