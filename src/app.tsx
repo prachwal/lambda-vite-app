@@ -1,5 +1,6 @@
 import { Counter } from './components/Counter';
 import { TechLinks } from './components/TechLinks/TechLinks.tsx';
+import { ThemeSwitcher } from './components/ThemeProvider/ThemeSwitcher.tsx';
 import preactLogo from './assets/preact.svg';
 import viteLogo from './assets/vite.svg';
 import './app.css';
@@ -35,6 +36,7 @@ export function App() {
         <a href="https://preactjs.com" target="_blank">
           <img src={preactLogo} class="logo preact" alt="Preact logo" />
         </a>
+        <ThemeSwitcher />
       </div>
       <h1>Vite + Preact</h1>
       <Counter />
@@ -46,7 +48,7 @@ export function App() {
           target="_blank"
         >
           create-preact
-        </a>
+        </a>{' '}
         , the official Preact + Vite starter
       </p>
       <p class="read-the-docs">
