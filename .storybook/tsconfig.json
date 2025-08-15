@@ -1,0 +1,12 @@
+{
+  "extends": "../tsconfig.app.json",
+  "compilerOptions": {
+    "outDir": "../node_modules/.tmp/storybook-tsbuildinfo",
+    "noEmit": true,
+    "module": "ESNext",
+    "jsx": "react-jsx",
+    "jsxImportSource": "preact"
+  },
+  "include": ["./main.ts", "./preview.ts"],
+  "exclude": ["../src", "../node_modules"]
+}

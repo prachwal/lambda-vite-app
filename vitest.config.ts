@@ -1,8 +1,13 @@
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'vitest/config';
 import preact from '@preact/preset-vite';
 
+// Get __dirname in ESM
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
 export default defineConfig({
-    root: new URL('.', import.meta.url).pathname,
+    root: path.resolve(__dirname, '.'),
     plugins: [preact()],
     test: {
         environment: 'jsdom',
@@ -16,13 +21,15 @@ export default defineConfig({
                 '**/assets/**',
                 '**/*.d.ts',
                 '**/*.test.ts',
+                '**/*.test.tsx',
                 '**/*.stories.tsx',
                 '**/index.ts',
                 '**/main.tsx',
                 '**/app.tsx',
-                'eslint.config.js',
-                'vite.config.ts',
-                'vitest.config.ts'
+                '**/vite.config.ts',
+                '**/vitest.config.ts',
+                '**/eslint.config.js',
+                '**/.storybook/**',
             ],
         },
     },

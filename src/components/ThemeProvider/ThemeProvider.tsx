@@ -22,7 +22,7 @@ export const ThemeContext = createContext<ThemeContextValue | undefined>(undefin
  * ThemeProvider component for managing theme state and applying CSS variables
  * @param children - React children
  */
-interface ThemeProviderProps {
+export interface ThemeProviderProps {
     readonly children: ComponentChildren;
 }
 

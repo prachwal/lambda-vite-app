@@ -1,62 +1,84 @@
 # Copilot Instructions for `lambda-vite-app`
 
-## Project Overview
+## Project Architecture & Patterns
 
 - **Framework:** Preact + Vite (see `vite.config.ts`)
-- **Entry Point:** `src/main.tsx` renders `App` to `#app` element
-- **Main Component:** `src/app.tsx` (UI logic, state, and demo interactions)
-- **Assets:** SVGs in `src/assets/` and `public/`
-- **Styling:** CSS in `src/app.css` and `src/index.css`
-
-## Architecture & Patterns
-
-- **Single-page app**: All UI is rendered from `App` (no routing by default)
-- **Functional components only** (no classes)
-- **State management:** Preact hooks (`useState`, etc.)
-- **No business logic/services layer**: All logic is in components for now
+- **SPA Structure:** All UI is rendered from `App` (`src/app.tsx`), no routing by default
+- **Component System:** Functional components only, organized in `src/components/ComponentName/`
+- **State Management:** Preact hooks and signals (`@preact/signals`)
+- **Theming:** CSS custom properties in `src/styles/theme.css`, with dark/light/system switching via `ThemeProvider` and `ThemeSwitcher`
+- **Styling:**
+  - Base styles: `src/styles/styles.css`
+  - Component styles: `src/styles/component-styles.css`
+  - Theme tokens: `src/styles/theme.css`
+- **No business logic/services layer**: All logic is in components
 - **No API calls or external data sources**
-- **Assets:** Use relative imports for SVGs/images
 
 ## Developer Workflows
 
-- **Start dev server:** `npm run dev` (hot reload enabled)
+- **Start dev server:** `npm run dev` (hot reload)
 - **Build:** `npm run build` (TypeScript + Vite)
 - **Preview production build:** `npm run preview`
-- **No test scripts or test files present**
+- **Lint:** `npm run lint` (ESLint flat config)
+- **Type check:** `npm run type-check`
+- **Test:** `npm run test` (Vitest + Testing Library)
+- **Coverage:** `npm run coverage`
+- **Storybook:** `npm run storybook` (Preact + Vite)
+- **Build all (CI):** `npm run build:all` or `bash scripts/build-all.sh` (runs lint, type-check, tests, coverage, build, docs)
+- **Docs:** `npm run docs` (TypeDoc, config in `typedoc.json`/`tsdoc.json`)
 
-## Conventions & Integration
+## Key Conventions & Integration
 
-- **TypeScript everywhere** (see `tsconfig.app.json`)
-- **Preact-specific imports:** Use `preact/hooks` for state, `preact` for render
-- **Vite SVG imports:** `/vite.svg` from `public/`, others from `src/assets/`
-- **No custom ESLint/formatting config detected**
-- **No Storybook, SSR, or advanced state management**
+- **TypeScript everywhere** (`tsconfig.app.json`)
+- **Component folder structure:**
+  - `src/components/ComponentName/ComponentName.tsx`
+  - `ComponentName.md` (usage, props, examples)
+  - `ComponentName.test.ts[x]` (Vitest)
+  - `ComponentName.stories.tsx` (Storybook)
+- **All exported symbols, props, and functions must have TSDoc comments**
+- **When modifying a component, update docs, tests, and stories in the same folder**
+- **Storybook stories must cover all major variants and states**
+- **Tests must cover all logic, edge cases, and error handling**
+- **Theming:** Use only CSS variables from `theme.css` for colors, spacing, radius, shadow, etc.
+- **Accessibility:** All interactive elements must support keyboard navigation, focus, and high contrast
 
 ## Example Patterns
 
 ```tsx
-// src/app.tsx
-import { useState } from "preact/hooks";
-export function App() {
-  const [count, setCount] = useState(0);
-  // ...UI logic...
+// src/components/Counter/Counter.tsx
+export function Counter() {
+  return (
+    <div class="card">
+      <button class="counter-button" onClick={increment}>
+        Count is {counter.value}
+      </button>
+    </div>
+  );
 }
 ```
 
-## Key Files
+## Integration Points & External Dependencies
 
-- `src/main.tsx`: App entry, renders `App`
-- `src/app.tsx`: Main UI component
-- `vite.config.ts`: Vite + Preact integration
-- `package.json`: Scripts, dependencies
+- **Preact:** UI rendering and hooks
+- **@preact/signals:** State management
+- **Vite:** Build and dev server
+- **Vitest + Testing Library:** Unit/integration tests
+- **Storybook:** Component documentation and visual testing
+- **TypeDoc/TSDoc:** API documentation
 
-## Guidance for AI Agents
+## Critical Notes for AI Agents
 
-- Follow Preact functional component patterns
-- Use Vite conventions for asset imports
-- Keep logic in components (no services/hooks yet)
-- Use TypeScript for all new code
-- Reference existing file structure for new features
+- Always use the centralized theme tokens and CSS variables for all styles
+- Never hardcode colors, spacing, or breakpoints
+- All new components must follow the folder and documentation structure
+- When updating a component, always update its test and storybook files
+- Use only functional components and hooks/signals for state
+- No business logic outside components
+- Reference `scripts/build-all.sh` for full CI workflow
+
+---
+
+If any section is unclear or missing, please ask for clarification or provide suggestions for improvement.
 
 ## Component File Organization & Documentation
 
