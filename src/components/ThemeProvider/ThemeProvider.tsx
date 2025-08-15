@@ -1,5 +1,5 @@
 
-import { createContext } from 'preact';
+import { createContext, type ComponentChildren } from 'preact';
 import { useEffect } from 'preact/hooks';
 import { useSignal } from '@preact/signals';
 
@@ -9,6 +9,7 @@ import { useSignal } from '@preact/signals';
 export type ThemeType = 'light' | 'dark' | 'system';
 export interface ThemeContextValue {
     theme: ThemeType;
+    // eslint-disable-next-line no-unused-vars
     setTheme: (theme: ThemeType) => void;
 }
 
@@ -22,7 +23,7 @@ export const ThemeContext = createContext<ThemeContextValue | undefined>(undefin
  * @param children - React children
  */
 interface ThemeProviderProps {
-    readonly children: preact.ComponentChildren;
+    readonly children: ComponentChildren;
 }
 
 /**
@@ -34,27 +35,31 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
 
     // Load theme from localStorage on mount
     useEffect(() => {
-        const stored = localStorage.getItem('theme');
-        if (stored) {
-            try {
-                const parsed = JSON.parse(stored);
-                if (parsed && (parsed === 'light' || parsed === 'dark' || parsed === 'system')) {
-                    themeSignal.value = parsed;
-                }
-            } catch { }
+        if (typeof window !== 'undefined' && typeof window.localStorage !== 'undefined') {
+            const stored = window.localStorage.getItem('theme');
+            if (stored) {
+                try {
+                    const parsed = JSON.parse(stored);
+                    if (parsed && (parsed === 'light' || parsed === 'dark' || parsed === 'system')) {
+                        themeSignal.value = parsed;
+                    }
+                } catch { /* empty */ }
+            }
         }
     }, []);
-
-    // Save theme to localStorage and update DOM
     useEffect(() => {
         const theme = themeSignal.value;
-        localStorage.setItem('theme', JSON.stringify(theme));
-        const root = document.documentElement;
+        if (typeof window !== 'undefined' && typeof window.localStorage !== 'undefined') {
+            window.localStorage.setItem('theme', JSON.stringify(theme));
+        }
+        const root = typeof document !== 'undefined' ? document.documentElement : null;
         let appliedTheme = theme;
-        if (theme === 'system') {
+        if (theme === 'system' && typeof window !== 'undefined') {
             appliedTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
         }
-        root.setAttribute('data-theme', appliedTheme);
+        if (root) {
+            root.setAttribute('data-theme', appliedTheme);
+        }
     }, [themeSignal.value]);
 
     const setTheme = (t: ThemeType) => {

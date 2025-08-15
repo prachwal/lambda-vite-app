@@ -1,7 +1,10 @@
 import { render } from 'preact';
-import './index.css';
 import { App } from './app.tsx';
 import { ThemeProvider } from './components/ThemeProvider/ThemeProvider.tsx';
+
+import './styles/theme.css';
+import './styles/styles.css';
+import './styles/component-styles.css';
 
 render(
     <ThemeProvider>
